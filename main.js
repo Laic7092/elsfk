@@ -5,6 +5,49 @@ let ctx = null
 //20x10的网格,每个网格
 //假设每个网格40px的方形...
 
+class Vector2 {
+    // x = 0;
+    // y = 0;
+    constructor(x = 0, y = 0) {
+        this.x = x
+        this.y = y
+    }
+}
+
+const compos = [
+    [
+        [1,1,1,1],
+    ],
+    [
+        [1,1],
+        [1,1]
+    ],
+    [
+        [0,1,0],
+        [1,1,1]
+    ],
+    [
+        [1,1],
+        [0,1],
+        [0,1]
+    ],
+    [
+        [1,1],
+        [1,0],
+        [1,0]
+    ],
+    [
+        [1,0],
+        [1,1],
+        [0,1]
+    ],
+    [
+        [0,1],
+        [1,1],
+        [1,0]
+    ],
+]
+
 function initMountedElement() {
     const gamePanel = document.getElementById('gamePanel')
     gamePanel.setAttribute('width','400px')
@@ -32,4 +75,42 @@ function drawPanel(ctx) {
         }
 
     }
+}
+
+function drawRectCell(ctx, position) {
+    const { x, y } = position
+    ctx.fillStyle = "#04be02";
+    ctx.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize -2, cellSize -2)
+}
+
+function clearRectCell(ctx, position) {
+    const { x, y } = position
+    ctx.clearRect(x * cellSize + 1, y * cellSize + 1, cellSize -2, cellSize -2)
+}
+
+function transCompoToVector2(compo) {
+    //下注点上移四个格子,应该是(4,-3)
+    //从base点开始
+    const basePoint = {
+        x: 4,
+        y: -3
+    }
+    let xOffset = 0
+    let yOffset = 0
+    const res = []
+    compo.forEach(element => {
+        xOffset = 0
+        element.forEach(cELement => {
+            if (cELement === 1) {
+                const point = {
+                    x: basePoint.x + xOffset,
+                    y: basePoint.y + yOffset
+                }
+                res.push(point)
+            }
+            xOffset++
+        });
+        yOffset++
+    });
+    return res
 }
