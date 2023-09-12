@@ -114,3 +114,47 @@ function transCompoToVector2(compo) {
     });
     return res
 }
+
+function drawCompo(vectorArray) {
+    vectorArray.forEach(item => {
+        drawRectCell(ctx, item)
+    })
+}
+
+function down(vectorArray) {
+    const newVectorArray = vectorArray.map(item => {
+         const newPoint = { ...item }
+         newPoint.y += 1
+         return newPoint
+     })
+     computeCompo(newVectorArray,vectorArray)
+     vectorArray.length = 0
+     vectorArray.push(...newVectorArray)
+ }
+
+ function vectorIsEqual(point1, point2) {
+     return point1.x === point2.x && point1.y === point2.y
+ }
+
+ function computeCompo(newVectorArray,vectorArray) {
+     const newSet = new Set(newVectorArray.map((item) => `${item.x}-${item.y}`));
+     const oldSet = new Set(vectorArray.map((item) => `${item.x}-${item.y}`));
+
+     const delPoints = vectorArray.filter(
+       (item) => !newSet.has(`${item.x}-${item.y}`)
+     );
+     const addPoints = newVectorArray.filter(
+       (item) => !oldSet.has(`${item.x}-${item.y}`)
+     );
+
+     delPoints.forEach(item => {
+         clearRectCell(ctx, item)
+     })
+
+     addPoints.forEach(item => {
+         drawRectCell(ctx, item)
+     })
+     console.log(delPoints,"del")
+     console.log(addPoints,"add")
+
+ }
