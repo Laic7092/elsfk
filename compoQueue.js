@@ -34,7 +34,7 @@ const compos = [
 
 const compoQueue = []
 
-export function initQueue() {
+function initQueue() {
     enQueue(compoFactory())
     enQueue(compoFactory())
 }
@@ -47,13 +47,16 @@ function deQueue() {
     return compoQueue.shift()
 }
 
-export function getCurCompo() {
+function getCurCompo() {
     return compoQueue[0]
 }
 
-function compoFactory() {
-    const randomInteger = Math.floor(Math.random() * 7);
+function compoFactory(num) {
+    let randomInteger = Math.floor(Math.random() * 7);
     // aa[randomInteger] += 1
+    if (num !== undefined) {
+        randomInteger = num
+    }
     const vectorArray = transCompoToVector2(compos[randomInteger])
     return vectorArray
 }
@@ -94,5 +97,13 @@ function test() {
     }
 
     console.log(aa)
+}
+
+export {
+    initQueue,
+    getCurCompo,
+    compoFactory,
+    enQueue,
+    deQueue
 }
 

@@ -1,14 +1,15 @@
-import { initQueue, getCurCompo } from "./compoQueue.js";
+import { initQueue, enQueue, deQueue, getCurCompo, compoFactory } from "./compoQueue.js";
 import { move, rotate } from "./operate.js";
 document.addEventListener('keydown', inputHandler)
 
 initQueue()
-const curCompo =  getCurCompo()
-
+let curCompo =  getCurCompo()
+test()
 function inputHandler(keyboardEvent) {
     const { key } = keyboardEvent
     switch (key.toUpperCase()) {
         case 'W':
+            rotate(curCompo)
             break;
         case 'A':
             move(curCompo, 'left')
@@ -25,6 +26,16 @@ function inputHandler(keyboardEvent) {
     }
 }
 
-setInterval(() => {
-   move(curCompo, 'down')
-}, 1000);
+
+function test() {
+    let a = 0
+    setInterval(() => {
+        move(curCompo,'down')
+    }, 500);
+
+    setInterval(() => {
+        enQueue(compoFactory((a++%7)))
+        deQueue()
+        curCompo = getCurCompo()
+    }, 3000);
+}
