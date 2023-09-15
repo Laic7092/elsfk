@@ -1,3 +1,4 @@
+import { enQueue, deQueue, compoFactory } from "./compoQueue.js"
 window.addEventListener('load', initMountedElement)
 const cellSize = 40
 const row = 20
@@ -30,31 +31,76 @@ function drawPanel(ctx) {
     }
 }
 
+// function initPanelData() {
+//     //这样填充的都是同一个二维数组..无语
+//     const panel = new Array(col).fill(new Array(row).fill(0))
+//     console.log(panel[0] === panel[1],"啊")
+//     return panel
+// }
+
 function initPanelData() {
-    const panel = new Array(col).fill(new Array(row).fill(0))
-    return panel
+    const panel = new Array(col);
+    for (let i = 0; i < col; i++) {
+        panel[i] = new Array(row).fill(0);
+    }
+    return panel;
 }
 
-function drawRectCell(ctx, position) {
+function drawRectCell(position) {
     const { x, y } = position
     ctx.fillStyle = "#04be02";
     ctx.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize -2, cellSize -2)
 }
 
-function clearRectCell(ctx, position) {
+function clearRectCell(position) {
     const { x, y } = position
     ctx.clearRect(x * cellSize + 1, y * cellSize + 1, cellSize -2, cellSize -2)
 }
 
 function drawCompo(vectorArray) {
     vectorArray.forEach(item => {
-        drawRectCell(ctx, item)
+        drawRectCell(item)
     })
 }
 
+function canChange(vectorArray) {
+    const allInPanel = vectorArray.every(item => isInPanel(item))
+    if (!allInPanel) return false
+    const allCellEmpty = vectorArray.findIndex(item => isCellFilled(item)) === -1
+    // if (!(allInPanel && allCellEmpty)) {
+    //     debugger
+    // }
+    return allInPanel && allCellEmpty
+}
+
+function isInPanel({ x, y }) {
+    return (x >= 0 && x < col) && (y >= -4 && y < row)
+}
+
+function isCellFilled({ x, y }) {
+    try {
+        return panel[x][y] === 1
+    } catch (error) {
+        console.log("error", x , y)
+    }
+
+}
+
+function lockCompo(vectorArray) {
+    // debugger
+    vectorArray.forEach(item => {
+        const { x ,y } = item
+        panel[x][y] = 1
+        // console.log("lock" ,`panel[${x}][${y}]`)
+    })
+    // console.log(panel)
+    deQueue()
+    enQueue(compoFactory())
+}
+
 export {
-    ctx,
-    panel,
     drawRectCell,
-    clearRectCell
+    clearRectCell,
+    canChange,
+    lockCompo
 }

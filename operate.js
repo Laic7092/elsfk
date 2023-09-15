@@ -1,5 +1,5 @@
 import { getCenterPoint ,vectorAdd, updateVectorArray } from './utils.js'
-import { ctx, panel, drawRectCell, clearRectCell } from './gamePanel.js';
+import { drawRectCell, clearRectCell, canChange, lockCompo } from './gamePanel.js';
 
 const unitVectorEnum = {
     down: {x: 0, y: 1},
@@ -7,13 +7,18 @@ const unitVectorEnum = {
     right: {x:1, y: 0}
 }
 
-function move(vectorArray, vector) {
+function move(vectorArray, direction) {
     const newVectorArray = vectorArray.map(item => {
-        const unitVector = unitVectorEnum[vector]
+        const unitVector = unitVectorEnum[direction]
         return vectorAdd(item, unitVector)
     })
-    computeCompo(newVectorArray, vectorArray)
-    updateVectorArray(vectorArray, newVectorArray)
+    if (canChange(newVectorArray)) {
+        computeCompo(newVectorArray, vectorArray)
+        updateVectorArray(vectorArray, newVectorArray)
+    } else if (direction === 'down') {
+        lockCompo(vectorArray)
+    }
+
 }
 
 function rotate(vectorArray) {
@@ -36,6 +41,7 @@ function rotate(vectorArray) {
     if (xOffset !== 0 || yOffset !== 0) {
         justifyOffset(newVectorArray, xOffset, yOffset)
     }
+    if (!canChange(newVectorArray)) return
     computeCompo(newVectorArray, vectorArray)
     updateVectorArray(vectorArray, newVectorArray)
 }
@@ -59,11 +65,11 @@ function computeCompo(newVectorArray, vectorArray) {
     );
 
     delPoints.forEach(item => {
-        clearRectCell(ctx, item)
+        clearRectCell(item)
     })
 
     addPoints.forEach(item => {
-        drawRectCell(ctx, item)
+        drawRectCell(item)
     })
     //  console.log(delPoints,"del")
     //  console.log(addPoints,"add")

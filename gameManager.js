@@ -1,10 +1,11 @@
-import { initQueue, enQueue, deQueue, getCurCompo, compoFactory } from "./compoQueue.js";
+import { initQueue, getCurCompo, compoFactory } from "./compoQueue.js";
 import { move, rotate } from "./operate.js";
 document.addEventListener('keydown', inputHandler)
 
 initQueue()
-let curCompo =  getCurCompo()
-test()
+let curCompo = getCurCompo()
+gameStart()
+// test()
 function inputHandler(keyboardEvent) {
     const { key } = keyboardEvent
     switch (key.toUpperCase()) {
@@ -26,6 +27,12 @@ function inputHandler(keyboardEvent) {
     }
 }
 
+function gameStart() {
+    setInterval(() => {
+        curCompo = getCurCompo()
+        move(curCompo, 'down')
+    }, 500);
+}
 
 function test() {
     let a = 0
