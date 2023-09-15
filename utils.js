@@ -23,7 +23,7 @@ function getCenterPoint(vectorArray) {
         x0,
         y0
     }
-    console.log("centerpoint",centerPoint)
+    // console.log("centerpoint",centerPoint)
     return centerPoint
 }
 

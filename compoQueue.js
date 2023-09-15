@@ -95,8 +95,7 @@ function test() {
         cnt += 1
         compoFactory()
     }
-
-    console.log(aa)
+    // console.log(aa)
 }
 
 export {
