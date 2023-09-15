@@ -35,8 +35,26 @@ function initPanelData() {
     return panel
 }
 
+function drawRectCell(ctx, position) {
+    const { x, y } = position
+    ctx.fillStyle = "#04be02";
+    ctx.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize -2, cellSize -2)
+}
+
+function clearRectCell(ctx, position) {
+    const { x, y } = position
+    ctx.clearRect(x * cellSize + 1, y * cellSize + 1, cellSize -2, cellSize -2)
+}
+
+function drawCompo(vectorArray) {
+    vectorArray.forEach(item => {
+        drawRectCell(ctx, item)
+    })
+}
+
 export {
     ctx,
     panel,
-    cellSize
+    drawRectCell,
+    clearRectCell
 }

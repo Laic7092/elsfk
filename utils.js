@@ -51,8 +51,13 @@ function vectorSub(vector1, vector2) {
     }
 }
 
+function updateVectorArray(vectorArray, newVectorArray) {
+    vectorArray.splice(0, vectorArray.length, ...newVectorArray);
+}
+
 export {
     getCenterPoint,
     vectorAdd,
-    vectorSub
+    vectorSub,
+    updateVectorArray
 }

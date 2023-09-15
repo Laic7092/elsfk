@@ -31,11 +31,11 @@ function test() {
     let a = 0
     setInterval(() => {
         move(curCompo,'down')
-    }, 500);
+    }, 100);
 
     setInterval(() => {
         enQueue(compoFactory((a++%7)))
         deQueue()
         curCompo = getCurCompo()
-    }, 3000);
+    }, 2000);
 }

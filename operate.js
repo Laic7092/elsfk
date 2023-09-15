@@ -1,27 +1,10 @@
-import { getCenterPoint ,vectorAdd } from './utils.js'
-import { ctx, panel, cellSize } from './gamePanel.js';
+import { getCenterPoint ,vectorAdd, updateVectorArray } from './utils.js'
+import { ctx, panel, drawRectCell, clearRectCell } from './gamePanel.js';
 
 const unitVectorEnum = {
     down: {x: 0, y: 1},
     left: {x:-1, y: 0},
     right: {x:1, y: 0}
-}
-
-function drawRectCell(ctx, position) {
-    const { x, y } = position
-    ctx.fillStyle = "#04be02";
-    ctx.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize -2, cellSize -2)
-}
-
-function clearRectCell(ctx, position) {
-    const { x, y } = position
-    ctx.clearRect(x * cellSize + 1, y * cellSize + 1, cellSize -2, cellSize -2)
-}
-
-function drawCompo(vectorArray) {
-    vectorArray.forEach(item => {
-        drawRectCell(ctx, item)
-    })
 }
 
 function move(vectorArray, vector) {
@@ -30,8 +13,7 @@ function move(vectorArray, vector) {
         return vectorAdd(item, unitVector)
     })
     computeCompo(newVectorArray, vectorArray)
-    vectorArray.length = 0
-    vectorArray.push(...newVectorArray)
+    updateVectorArray(vectorArray, newVectorArray)
 }
 
 function rotate(vectorArray) {
@@ -55,8 +37,7 @@ function rotate(vectorArray) {
         justifyOffset(newVectorArray, xOffset, yOffset)
     }
     computeCompo(newVectorArray, vectorArray)
-    vectorArray.length = 0
-    vectorArray.push(...newVectorArray)
+    updateVectorArray(vectorArray, newVectorArray)
 }
 
 function justifyOffset(vectorArray, xOffset = 0, yOffset = 0) {
