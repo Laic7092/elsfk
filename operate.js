@@ -1,9 +1,15 @@
+import './gameManager.js'
 window.addEventListener('load', initMountedElement)
-
 const cellSize = 40
 let ctx = null
 //20x10的网格,每个网格
 //假设每个网格40px的方形...
+
+const unitVectorEnum = {
+    down: {x: 0, y: 1},
+    left: {x:-1, y: 0},
+    right: {x:1, y: 0}
+}
 
 class Vector2 {
     // x = 0;
@@ -13,40 +19,6 @@ class Vector2 {
         this.y = y
     }
 }
-
-const compos = [
-    [
-        [1,1,1,1],
-    ],
-    [
-        [1,1],
-        [1,1]
-    ],
-    [
-        [0,1,0],
-        [1,1,1]
-    ],
-    [
-        [1,1],
-        [0,1],
-        [0,1]
-    ],
-    [
-        [1,1],
-        [1,0],
-        [1,0]
-    ],
-    [
-        [1,0],
-        [1,1],
-        [0,1]
-    ],
-    [
-        [0,1],
-        [1,1],
-        [1,0]
-    ],
-]
 
 function initMountedElement() {
     const gamePanel = document.getElementById('gamePanel')
@@ -77,42 +49,15 @@ function drawPanel(ctx) {
     }
 }
 
-function drawRectCell(ctx, position) {
-    const { x, y } = position
+function drawRectCell(ctx, vector) {
+    const { x, y } = vector
     ctx.fillStyle = "#04be02";
     ctx.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize -2, cellSize -2)
 }
 
-function clearRectCell(ctx, position) {
-    const { x, y } = position
+function clearRectCell(ctx, vector) {
+    const { x, y } = vector
     ctx.clearRect(x * cellSize + 1, y * cellSize + 1, cellSize -2, cellSize -2)
-}
-
-function transCompoToVector2(compo) {
-    //下注点上移四个格子,应该是(4,-3)
-    //从base点开始
-    const basePoint = {
-        x: 4,
-        y: -3
-    }
-    let xOffset = 0
-    let yOffset = 0
-    const res = []
-    compo.forEach(element => {
-        xOffset = 0
-        element.forEach(cELement => {
-            if (cELement === 1) {
-                const point = {
-                    x: basePoint.x + xOffset,
-                    y: basePoint.y + yOffset
-                }
-                res.push(point)
-            }
-            xOffset++
-        });
-        yOffset++
-    });
-    return res
 }
 
 function drawCompo(vectorArray) {
@@ -121,22 +66,28 @@ function drawCompo(vectorArray) {
     })
 }
 
-function down(vectorArray) {
+ function move(vectorArray, vector) {
     const newVectorArray = vectorArray.map(item => {
-         const newPoint = { ...item }
-         newPoint.y += 1
-         return newPoint
-     })
-     computeCompo(newVectorArray,vectorArray)
-     vectorArray.length = 0
-     vectorArray.push(...newVectorArray)
+        const newPoint = { ...item }
+        const { x, y } = unitVectorEnum[vector]
+        newPoint.x += x
+        newPoint.y += y
+        return newPoint
+    })
+    computeCompo(newVectorArray, vectorArray)
+    vectorArray.length = 0
+    vectorArray.push(...newVectorArray)
+ }
+
+ function rotate(vectorArray) {
+
  }
 
  function vectorIsEqual(point1, point2) {
      return point1.x === point2.x && point1.y === point2.y
  }
 
- function computeCompo(newVectorArray,vectorArray) {
+ function computeCompo(newVectorArray, vectorArray) {
      const newSet = new Set(newVectorArray.map((item) => `${item.x}-${item.y}`));
      const oldSet = new Set(vectorArray.map((item) => `${item.x}-${item.y}`));
 
@@ -154,7 +105,13 @@ function down(vectorArray) {
      addPoints.forEach(item => {
          drawRectCell(ctx, item)
      })
-     console.log(delPoints,"del")
-     console.log(addPoints,"add")
+    //  console.log(delPoints,"del")
+    //  console.log(addPoints,"add")
 
+ }
+
+
+ export {
+    move,
+    rotate
  }
