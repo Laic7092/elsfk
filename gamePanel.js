@@ -92,10 +92,22 @@ function lockCompo(vectorArray) {
         const { x ,y } = item
         panel[x][y] = 1
         // console.log("lock" ,`panel[${x}][${y}]`)
+        checkLine(y)
+        
     })
     // console.log(panel)
     deQueue()
     enQueue(compoFactory())
+}
+
+function checkLine(y) {
+    if (panel.every(item => item[y] === 1)) {
+        panel.forEach((item, x) => {
+            item[y] = 0
+            clearRectCell({ x, y })
+        })
+    }               
+    
 }
 
 export {
