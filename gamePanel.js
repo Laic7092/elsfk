@@ -1,12 +1,11 @@
 import { enQueue, deQueue, compoFactory } from "./compoQueue.js"
+import { isCellFilled, fillCell, checkLineClearable } from "./panelData.js"
+import { row, col ,cellSize } from "./constant.js"
 window.addEventListener('load', initMountedElement)
-const cellSize = 40
-const row = 20
-const col = 10
+
 let ctx = null
 //20x10的网格,每个网格
 //假设每个网格40px的方形...
-const panel = initPanelData()
 
 function initMountedElement() {
     const gamePanel = document.getElementById('gamePanel')
@@ -31,21 +30,6 @@ function drawPanel(ctx) {
     }
 }
 
-// function initPanelData() {
-//     //这样填充的都是同一个二维数组..无语
-//     const panel = new Array(col).fill(new Array(row).fill(0))
-//     console.log(panel[0] === panel[1],"啊")
-//     return panel
-// }
-
-function initPanelData() {
-    const panel = new Array(col);
-    for (let i = 0; i < col; i++) {
-        panel[i] = new Array(row).fill(0);
-    }
-    return panel;
-}
-
 function drawRectCell(position) {
     const { x, y } = position
     ctx.fillStyle = "#04be02";
@@ -55,6 +39,15 @@ function drawRectCell(position) {
 function clearRectCell(position) {
     const { x, y } = position
     ctx.clearRect(x * cellSize + 1, y * cellSize + 1, cellSize -2, cellSize -2)
+}
+
+function clearRow(y) {
+    for (let x = 0; x < col; x++) {
+        clearRectCell({
+            x,
+            y
+        })
+    }
 }
 
 function drawCompo(vectorArray) {
@@ -77,37 +70,21 @@ function isInPanel({ x, y }) {
     return (x >= 0 && x < col) && (y >= -4 && y < row)
 }
 
-function isCellFilled({ x, y }) {
-    try {
-        return panel[x][y] === 1
-    } catch (error) {
-        console.log("error", x , y)
-    }
-
-}
-
 function lockCompo(vectorArray) {
     // debugger
+    const delLineArray = []
     vectorArray.forEach(item => {
         const { x ,y } = item
-        panel[x][y] = 1
-        // console.log("lock" ,`panel[${x}][${y}]`)
-        checkLine(y)
-        
+        fillCell(x, y)
+        if (checkLineClearable(y)) {
+            delLineArray.push(y)
+        }
     })
-    // console.log(panel)
+    delLineArray.forEach(y => {
+        clearRow(y)
+    })
     deQueue()
     enQueue(compoFactory())
-}
-
-function checkLine(y) {
-    if (panel.every(item => item[y] === 1)) {
-        panel.forEach((item, x) => {
-            item[y] = 0
-            clearRectCell({ x, y })
-        })
-    }               
-    
 }
 
 export {
