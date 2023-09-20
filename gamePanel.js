@@ -1,6 +1,7 @@
 import { enQueue, deQueue, compoFactory } from "./compoQueue.js"
-import { isCellFilled, fillCell, checkLineClearable } from "./panelData.js"
+import { isCellFilled, fillCell, checkLineClearable, getToBeMovedCompo } from "./panelData.js"
 import { row, col ,cellSize } from "./constant.js"
+import { move } from "./operate.js";
 window.addEventListener('load', initMountedElement)
 
 let ctx = null
@@ -63,6 +64,7 @@ function canChange(vectorArray) {
     // if (!(allInPanel && allCellEmpty)) {
     //     debugger
     // }
+    // console.log("lockBecause", allInPanel, allCellEmpty)
     return allInPanel && allCellEmpty
 }
 
@@ -80,9 +82,16 @@ function lockCompo(vectorArray) {
             delLineArray.push(y)
         }
     })
-    delLineArray.forEach(y => {
-        clearRow(y)
-    })
+    if (delLineArray.length > 0) {
+        delLineArray.forEach(y => {
+            clearRow(y)
+        })
+        const vectorArray = getToBeMovedCompo(delLineArray)
+        console.log("我不信",vectorArray)
+        delLineArray.forEach(item => {
+            move(vectorArray, 'down')
+        })
+    }
     deQueue()
     enQueue(compoFactory())
 }
