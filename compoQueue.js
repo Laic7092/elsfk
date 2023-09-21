@@ -1,3 +1,4 @@
+import { JumpQueueCallBack } from "./gameManager.js"
 const compos = [
     [
         [1,1,1,1],
@@ -49,6 +50,7 @@ function deQueue() {
 
 function jumpQueue(item) {
     compoQueue.unshift(item)
+    JumpQueueCallBack()
 }
 
 function getCurCompo() {

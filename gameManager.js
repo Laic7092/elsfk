@@ -5,6 +5,11 @@ document.addEventListener('keydown', inputHandler)
 initQueue()
 let curCompo = getCurCompo()
 gameStart()
+
+export function JumpQueueCallBack() {
+    curCompo = getCurCompo()
+}
+
 // test()
 function inputHandler(keyboardEvent) {
     const { key } = keyboardEvent
