@@ -55,9 +55,14 @@ function updateVectorArray(vectorArray, newVectorArray) {
     vectorArray.splice(0, vectorArray.length, ...newVectorArray);
 }
 
+function log(str,data) {
+    console.log(str, JSON.parse(JSON.stringify(data)))
+}
+
 export {
     getCenterPoint,
     vectorAdd,
     vectorSub,
-    updateVectorArray
+    updateVectorArray,
+    log
 }

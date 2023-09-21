@@ -47,6 +47,10 @@ function deQueue() {
     return compoQueue.shift()
 }
 
+function jumpQueue(item) {
+    compoQueue.unshift(item)
+}
+
 function getCurCompo() {
     return compoQueue[0]
 }
@@ -57,7 +61,7 @@ function compoFactory(num) {
     if (num !== undefined) {
         randomInteger = num
     }
-    // randomInteger = 1
+    randomInteger = 1
     const vectorArray = transCompoToVector2(compos[randomInteger])
     return vectorArray
 }
@@ -104,6 +108,7 @@ export {
     getCurCompo,
     compoFactory,
     enQueue,
-    deQueue
+    deQueue,
+    jumpQueue
 }
 

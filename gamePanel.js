@@ -1,7 +1,6 @@
-import { enQueue, deQueue, compoFactory } from "./compoQueue.js"
+import { enQueue, deQueue, compoFactory, jumpQueue } from "./compoQueue.js"
 import { isCellFilled, fillCell, checkLineClearable, getToBeMovedCompo } from "./panelData.js"
 import { row, col ,cellSize } from "./constant.js"
-import { move } from "./operate.js";
 window.addEventListener('load', initMountedElement)
 
 let ctx = null
@@ -82,18 +81,21 @@ function lockCompo(vectorArray) {
             delLineArray.push(y)
         }
     })
+    deQueue()
     if (delLineArray.length > 0) {
         delLineArray.forEach(y => {
             clearRow(y)
         })
         const vectorArray = getToBeMovedCompo(delLineArray)
-        console.log("我不信",vectorArray)
-        delLineArray.forEach(item => {
-            move(vectorArray, 'down')
-        })
+        jumpQueue(vectorArray)
+        //console.log("我不信",vectorArray)
+        //debugger
+        // delLineArray.forEach(item => {
+        //     move(vectorArray, 'down')
+        // })
     }
-    deQueue()
     enQueue(compoFactory())
+
 }
 
 export {
