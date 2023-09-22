@@ -17,13 +17,15 @@ function getCenterPoint(vectorArray) {
         ySum += y
         count += 1
     })
-    const x0 = Math.round(xSum/count)
-    const y0 = Math.round(ySum/count)
+    // const x0 = Math.round(xSum/count)
+    // const y0 = Math.round(ySum/count)
+    const x0 = xSum/count
+    const y0 = ySum/count
     const centerPoint = {
         x0,
         y0
     }
-    // console.log("centerpoint",centerPoint)
+    //console.log("centerpoint",centerPoint)
     return centerPoint
 }
 

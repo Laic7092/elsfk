@@ -1,6 +1,7 @@
 import { enQueue, deQueue, compoFactory, jumpQueue } from "./compoQueue.js"
 import { isCellFilled, fillCell, checkLineClearable, getToBeMovedCompo } from "./panelData.js"
 import { row, col ,cellSize } from "./constant.js"
+import { resetOffset } from "./offset.js"
 window.addEventListener('load', initMountedElement)
 
 let ctx = null
@@ -82,6 +83,7 @@ function lockCompo(vectorArray) {
         }
     })
     deQueue()
+    resetOffset()
     if (delLineArray.length > 0) {
         delLineArray.forEach(y => {
             clearRow(y)

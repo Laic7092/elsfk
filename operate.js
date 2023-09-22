@@ -1,6 +1,6 @@
 import { getCenterPoint ,vectorAdd, updateVectorArray } from './utils.js'
 import { drawRectCell, clearRectCell, canChange, lockCompo } from './gamePanel.js';
-
+import { addOffset, subOffset, getOffset } from './offset.js';
 const unitVectorEnum = {
     down: {x: 0, y: 1},
     left: {x:-1, y: 0},
@@ -33,23 +33,46 @@ function rotate(vectorArray) {
             y: y1
         }
     })
-    const newCenterPoint = getCenterPoint(newVectorArray)
-    const x1 = newCenterPoint.x0
-    const y1 = newCenterPoint.y0
-    const xOffset = x1 - x0
-    const yOffset = y1 - y0
-    if (xOffset !== 0 || yOffset !== 0) {
-        justifyOffset(newVectorArray, xOffset, yOffset)
-    }
+    computeOffset(newVectorArray)
     if (!canChange(newVectorArray)) return
     computeCompo(newVectorArray, vectorArray)
     updateVectorArray(vectorArray, newVectorArray)
 }
 
+function computeOffset(vectorArray) {
+    const len = vectorArray.length
+    let xOffsetSum = 0
+    let yOffsetSum = 0
+    vectorArray.forEach(item => {
+        const { x , y } = item
+        const x1 = Math.floor(x)
+        const y1 = Math.floor(y)
+        xOffsetSum += x - x1
+        yOffsetSum += y - y1
+        item.x = x1
+        item.y = y1
+    })
+    const averageXOffset = xOffsetSum/len
+    const averageYOffset = yOffsetSum/len
+    addOffset(averageXOffset, averageYOffset)
+    // debugger
+    // console.log(averageXOffset, averageYOffset,"平均偏移")
+    const pastOffset = getOffset()
+    const { x, y } = pastOffset
+    if ( x >= 1 || y >= 1) {
+        let xOffset = x - 1 >= 0 ? 1 : 0
+        let yOffset = y - 1 >= 0 ? 1 : 0
+        subOffset(xOffset, yOffset)
+        justifyOffset(vectorArray, xOffset ,yOffset)
+    }
+
+
+}
+
 function justifyOffset(vectorArray, xOffset = 0, yOffset = 0) {
     vectorArray.forEach(item => {
-        item.x -= xOffset
-        item.y -= yOffset
+        item.x += xOffset
+        item.y += yOffset
     })
 }
 
