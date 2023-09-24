@@ -1,12 +1,15 @@
-import { initQueue, getCurCompo, compoFactory } from "./compoQueue.js";
-import { move, rotate } from "./operate.js";
+import { initQueue, getCurCompo, compoFactory } from "./compoQueue.js"
+import { move, rotate } from "./operate.js"
+import eventCenter from "./pub-sub/eventCenter.js"
+
 document.addEventListener('keydown', inputHandler)
+eventCenter.on("jumpQueue", jumpQueueCallBack)
 
 initQueue()
 let curCompo = getCurCompo()
 gameStart()
 
-export function JumpQueueCallBack() {
+function jumpQueueCallBack() {
     curCompo = getCurCompo()
 }
 

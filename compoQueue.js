@@ -1,4 +1,4 @@
-import { JumpQueueCallBack } from "./gameManager.js"
+import eventCenter from "./pub-sub/eventCenter.js"
 const compos = [
     [
         [1,1,1,1],
@@ -50,7 +50,7 @@ function deQueue() {
 
 function jumpQueue(item) {
     compoQueue.unshift(item)
-    JumpQueueCallBack()
+    eventCenter.emit("jumpQueue")
 }
 
 function getCurCompo() {

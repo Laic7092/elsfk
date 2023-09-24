@@ -1,6 +1,7 @@
-import { getCenterPoint ,vectorAdd, updateVectorArray } from './utils.js'
+import { getCenterPoint ,vectorAdd, updateVectorArray, log } from './utils.js'
 import { drawRectCell, clearRectCell, canChange, lockCompo } from './gamePanel.js';
-import { addOffset, subOffset, getOffset } from './offset.js';
+import { addOffset, subOffset, getOffset, backStep } from './offset.js';
+import { col } from './constant.js';
 const unitVectorEnum = {
     down: {x: 0, y: 1},
     left: {x:-1, y: 0},
@@ -24,6 +25,7 @@ function move(vectorArray, direction) {
 function rotate(vectorArray) {
     const centerPoint = getCenterPoint(vectorArray)
     const { x0, y0 } = centerPoint
+    let min = 0, max = col - 1
     const newVectorArray =  vectorArray.map(item => {
         const { x, y } = item
         const x1 = -y + x0 + y0
@@ -34,7 +36,10 @@ function rotate(vectorArray) {
         }
     })
     computeOffset(newVectorArray)
-    if (!canChange(newVectorArray)) return
+    if (!canChange(newVectorArray)) {
+        backStep()
+        return
+    }
     computeCompo(newVectorArray, vectorArray)
     updateVectorArray(vectorArray, newVectorArray)
 }
@@ -65,8 +70,19 @@ function computeOffset(vectorArray) {
         subOffset(xOffset, yOffset)
         justifyOffset(vectorArray, xOffset ,yOffset)
     }
-
-
+    let min = 0
+    let max = 9
+    vectorArray.forEach(item => {
+        const { x } = item
+        if (x < min) {
+            min = x
+        } else if (x > max) {
+            max = x
+        }
+    })
+    if (min !== 0 || max !== 9) {
+        justifyOffset(vectorArray, min === 0 ? 9 - max : 0 - min)
+    }
 }
 
 function justifyOffset(vectorArray, xOffset = 0, yOffset = 0) {
