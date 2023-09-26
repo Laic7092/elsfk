@@ -3,11 +3,24 @@ import { move, rotate } from "./operate.js"
 import eventCenter from "../pub-sub/eventCenter.js"
 
 document.addEventListener('keydown', inputHandler)
+// eventCenter.on("gs", gsCallBack)
+eventCenter.on("gg", ggCallBack)
 eventCenter.on("jumpQueue", jumpQueueCallBack)
+
 
 initQueue()
 let curCompo = getCurCompo()
+let intervalId = ''
 gameStart()
+
+// function gsCallBack() {
+//     gameStart()
+// }
+
+function ggCallBack() {
+    stopGame(intervalId)
+    gameStart()
+}
 
 function jumpQueueCallBack() {
     curCompo = getCurCompo()
@@ -15,6 +28,7 @@ function jumpQueueCallBack() {
 
 // test()
 function inputHandler(keyboardEvent) {
+    if (!intervalId) return
     const { key } = keyboardEvent
     switch (key.toUpperCase()) {
         case 'W':
@@ -36,10 +50,14 @@ function inputHandler(keyboardEvent) {
 }
 
 function gameStart() {
-    setInterval(() => {
+    intervalId = setInterval(() => {
         curCompo = getCurCompo()
         move(curCompo, 'down')
     }, 500);
+}
+
+function stopGame(id) {
+    clearInterval(id)
 }
 
 function test() {

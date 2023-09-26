@@ -3,7 +3,7 @@ import eventCenter from "../pub-sub/eventCenter.js";
 window.addEventListener('load',() => {
     scoreEle = document.querySelector('#score')
     highestScoreEle = document.querySelector('#highestScore')
-
+    
     highestScore = parseInt(localStorage.getItem("highestScore")) || 0
     setScore(scoreEle, score)
     setScore(highestScoreEle, highestScore)
@@ -22,7 +22,7 @@ function setScore(ele, score) {
 
 function getScore() {
     score += 1
-    setScore(scoreEle)
+    setScore(scoreEle, score)
 }
 
 function ggCallBack() {
@@ -31,6 +31,8 @@ function ggCallBack() {
         localStorage.setItem("highestScore", highestScore)
     }
     score = 0
+    setScore(scoreEle, score)
+    setScore(highestScoreEle, highestScore)
 }
 
 export {
