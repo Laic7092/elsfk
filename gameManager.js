@@ -15,8 +15,8 @@ function jumpQueueCallBack() {
 }
 
 function ggCallBack(params) {
-    let a = confirm("gg")
-
+    //let a = confirm("gg")
+    eventCenter.emit("gg")
 }
 
 // test()

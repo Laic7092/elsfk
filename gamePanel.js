@@ -3,11 +3,18 @@ import { isCellFilled, fillCell, checkLineClearable, getToBeMovedCompo } from ".
 import { row, col ,cellSize } from "./constant.js"
 import { resetOffset } from "./offset.js"
 import { getScore } from "./score.js";
+import eventCenter from "./pub-sub/eventCenter.js";
 window.addEventListener('load', initMountedElement)
+eventCenter.on("gg", ggCallBack)
 
 let ctx = null
 //20x10的网格,每个网格
 //假设每个网格40px的方形...
+
+function ggCallBack() {
+    ctx.clearRect(0, 0, 400, 800)
+    drawPanel(ctx)
+}
 
 function initMountedElement() {
     const gamePanel = document.getElementById('gamePanel')

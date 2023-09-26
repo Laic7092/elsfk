@@ -1,7 +1,15 @@
 import { row, col } from "./constant.js"
 import { log } from "./utils.js";
 import eventCenter from "./pub-sub/eventCenter.js";
+eventCenter.on("gg", ggCallBack)
+
 const panel = initPanelData()
+
+function ggCallBack() {
+    for (let i = 0; i < row; i++) {
+        panel[i] = new Array(col).fill(0);
+    }
+}
 
 function initPanelData() {
     //改成20 * 10,方便行操作
