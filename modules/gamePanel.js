@@ -1,9 +1,9 @@
 import { enQueue, deQueue, compoFactory, jumpQueue } from "./compoQueue.js"
 import { isCellFilled, fillCell, checkLineClearable, getToBeMovedCompo } from "./panelData.js"
-import { row, col ,cellSize } from "./constant.js"
+import { row, col ,cellSize } from "../constant.js"
 import { resetOffset } from "./offset.js"
 import { getScore } from "./score.js";
-import eventCenter from "./pub-sub/eventCenter.js";
+import eventCenter from "../pub-sub/eventCenter.js";
 window.addEventListener('load', initMountedElement)
 eventCenter.on("gg", ggCallBack)
 

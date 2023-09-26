@@ -1,4 +1,4 @@
-import eventCenter from "./pub-sub/eventCenter.js"
+import eventCenter from "../pub-sub/eventCenter.js"
 const compos = [
     [
         [1,1,1,1],

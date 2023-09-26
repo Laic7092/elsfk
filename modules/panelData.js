@@ -1,6 +1,6 @@
-import { row, col } from "./constant.js"
-import { log } from "./utils.js";
-import eventCenter from "./pub-sub/eventCenter.js";
+import { row, col } from "../constant.js"
+import { log } from "../utils.js";
+import eventCenter from "../pub-sub/eventCenter.js";
 eventCenter.on("gg", ggCallBack)
 
 const panel = initPanelData()

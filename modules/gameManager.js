@@ -1,6 +1,6 @@
 import { initQueue, getCurCompo, compoFactory } from "./compoQueue.js"
 import { move, rotate } from "./operate.js"
-import eventCenter from "./pub-sub/eventCenter.js"
+import eventCenter from "../pub-sub/eventCenter.js"
 
 document.addEventListener('keydown', inputHandler)
 eventCenter.on("jumpQueue", jumpQueueCallBack)

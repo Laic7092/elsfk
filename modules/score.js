@@ -1,4 +1,4 @@
-import eventCenter from "./pub-sub/eventCenter.js";
+import eventCenter from "../pub-sub/eventCenter.js";
 window.addEventListener('load',() => {
     scoreEle = document.querySelector('#score')
     highestScoreEle = document.querySelector('#highestScore')

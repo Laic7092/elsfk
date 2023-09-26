@@ -1,7 +1,7 @@
-import { getCenterPoint ,vectorAdd, updateVectorArray } from './utils.js'
+import { getCenterPoint ,vectorAdd, updateVectorArray } from '../utils.js'
 import { drawRectCell, clearRectCell, canChange, lockCompo } from './gamePanel.js';
 import { addOffset, subOffset, getOffset, backStep } from './offset.js';
-import { col } from './constant.js';
+import { col } from '../constant.js';
 const unitVectorEnum = {
     down: {x: 0, y: 1},
     left: {x:-1, y: 0},
