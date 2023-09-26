@@ -9,7 +9,7 @@ export default function pubSub(all = new Map()) {
         } else {
             all.set(type, [handler])
         }
-        console.log('on' ,all);
+        //console.log('on' ,all);
     }
     function off(type, handler) {
         const handlers = all.get(type)
@@ -20,14 +20,14 @@ export default function pubSub(all = new Map()) {
             else {
                 handlers.set(type, [])
             }
-            console.log('off' ,all);
+            //console.log('off' ,all);
         }
     }
     function emit(type ,evt) {
         const handlers = all.get(type)
         if (handlers) {
             handlers.slice().map(handler => handler(evt))
-            console.log('emit' ,type, evt);
+            //console.log('emit' ,type, evt);
         }
     }
 

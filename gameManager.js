@@ -4,7 +4,6 @@ import eventCenter from "./pub-sub/eventCenter.js"
 
 document.addEventListener('keydown', inputHandler)
 eventCenter.on("jumpQueue", jumpQueueCallBack)
-eventCenter.on("gg", ggCallBack)
 
 initQueue()
 let curCompo = getCurCompo()

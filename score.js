@@ -1,19 +1,33 @@
+import eventCenter from "./pub-sub/eventCenter.js";
 window.addEventListener('load',() => {
     scoreEle = document.querySelector('#score')
-    setScore()
+    highestScoreEle = document.querySelector('#highestScore')
+    highestScore = parseInt(localStorage.getItem("highestScore")) || 0
+    setScore(scoreEle)
+    setScore(highestScoreEle)
 })
+eventCenter.on("gg", ggCallBack)
 let score = 0
+let highestScore = 0
 let scoreEle = null
-function setScore() {
-    scoreEle.innerText = score
+let highestScoreEle = null
+
+
+function setScore(ele) {
+    ele.innerText = score
 }
 
 function getScore() {
     score += 1
-    setScore()
+    setScore(scoreEle)
 }
 
-function gg(params) {
+function ggCallBack() {
+    debugger
+    if (score > highestScore) {
+        highestScore = score
+        localStorage.setItem("highestScore", highestScore)
+    }
     score = 0
 }
 

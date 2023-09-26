@@ -2,9 +2,9 @@ import eventCenter from "./eventCenter.js";
 
 
 const cb = (evt) => {
-    console.log("hh", evt)
+    //console.log("hh", evt)
 }
-eventCenter.on("abc", cb)
+//eventCenter.on("abc", cb)
 
 setTimeout(() => {
     const evt = "dassd"
