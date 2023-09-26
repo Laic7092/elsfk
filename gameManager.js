@@ -4,6 +4,7 @@ import eventCenter from "./pub-sub/eventCenter.js"
 
 document.addEventListener('keydown', inputHandler)
 eventCenter.on("jumpQueue", jumpQueueCallBack)
+eventCenter.on("gg", ggCallBack)
 
 initQueue()
 let curCompo = getCurCompo()
@@ -11,6 +12,11 @@ gameStart()
 
 function jumpQueueCallBack() {
     curCompo = getCurCompo()
+}
+
+function ggCallBack(params) {
+    let a = confirm("gg")
+
 }
 
 // test()

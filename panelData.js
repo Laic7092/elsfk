@@ -1,5 +1,6 @@
 import { row, col } from "./constant.js"
 import { log } from "./utils.js";
+import eventCenter from "./pub-sub/eventCenter.js";
 const panel = initPanelData()
 
 function initPanelData() {
@@ -12,7 +13,12 @@ function initPanelData() {
 }
 
 function fillCell(x, y) {
+    if (y <= 0) {
+        eventCenter.emit("gg")
+    }
     panel[y][x] = 1
+
+
 }
 
 function clearCell(x, y) {
