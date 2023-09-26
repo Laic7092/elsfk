@@ -13,11 +13,6 @@ function jumpQueueCallBack() {
     curCompo = getCurCompo()
 }
 
-function ggCallBack(params) {
-    //let a = confirm("gg")
-    eventCenter.emit("gg")
-}
-
 // test()
 function inputHandler(keyboardEvent) {
     const { key } = keyboardEvent
