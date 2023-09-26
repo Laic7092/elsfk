@@ -33,7 +33,9 @@ function subOffset(x, y) {
 }
 
 function getOffset() {
-    return offset
+    return {
+        ...offset
+    }
 }
 
 function resetOffset() {

@@ -53,6 +53,7 @@ function vectorSub(vector1, vector2) {
     }
 }
 
+//替换原数组中的内容
 function updateVectorArray(vectorArray, newVectorArray) {
     vectorArray.splice(0, vectorArray.length, ...newVectorArray);
 }
