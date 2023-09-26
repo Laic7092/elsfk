@@ -94,22 +94,22 @@ function justifyOffset(vectorArray, xOffset = 0, yOffset = 0) {
 }
 
 function computeCompo(newVectorArray, vectorArray) {
-    const newSet = new Set(newVectorArray.map((item) => `${item.x}-${item.y}`));
-    const oldSet = new Set(vectorArray.map((item) => `${item.x}-${item.y}`));
-
-    const delPoints = vectorArray.filter(
-        (item) => !newSet.has(`${item.x}-${item.y}`)
-    );
-    const addPoints = newVectorArray.filter(
-        (item) => !oldSet.has(`${item.x}-${item.y}`)
-    );
-
-    delPoints.forEach(item => {
-        clearRectCell(item)
+    const newSet = new Set(newVectorArray.map((item) => `${item.x}*${item.y}`))
+    vectorArray.forEach(item => {
+        const { x , y } = item
+        const key = `${x}*${y}`
+        if (!newSet.has(key)) {
+            clearRectCell(item)
+        } else {
+            newSet.delete(key)
+        }
     })
-
-    addPoints.forEach(item => {
-        drawRectCell(item)
+    newSet.forEach(item => {
+        const [x, y] = item.split('*');
+        drawRectCell({
+            x,
+            y
+        })
     })
     //  console.log(delPoints,"del")
     //  console.log(addPoints,"add")
