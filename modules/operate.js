@@ -1,5 +1,6 @@
 import { getCenterPoint ,vectorAdd, updateVectorArray } from '../utils.js'
-import { drawRectCell, clearRectCell, canChange, lockCompo } from './gamePanel.js';
+import { drawRectCell, clearRectCell } from './gamePanel.js';
+import { canChange, lockCompo } from './panelData.js'
 import { addOffset, subOffset, getOffset, backStep } from './offset.js';
 import { col } from '../constant.js';
 

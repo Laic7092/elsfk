@@ -1,9 +1,6 @@
-import { enQueue, deQueue, compoFactory, jumpQueue } from "./compoQueue.js"
-import { isCellFilled, fillCell, checkLineClearable, getToBeMovedCompo } from "./panelData.js"
 import { row, col ,cellSize } from "../constant.js"
-import { resetOffset } from "./offset.js"
-import { getScore } from "./score.js";
-import eventCenter from "../pub-sub/eventCenter.js";
+import eventCenter from "../pub-sub/eventCenter.js"
+
 window.addEventListener('load', initMountedElement)
 eventCenter.on("gg", ggCallBack)
 
@@ -11,6 +8,7 @@ let ctx = null
 //20x10的网格,每个网格
 //假设每个网格40px的方形...
 
+//全部清空并重绘网格
 function ggCallBack() {
     ctx.clearRect(0, 0, 400, 800)
     drawPanel(ctx)
@@ -65,53 +63,8 @@ function drawCompo(vectorArray) {
     })
 }
 
-function canChange(vectorArray) {
-    const allInPanel = vectorArray.every(item => isInPanel(item))
-    if (!allInPanel) return false
-    const allCellEmpty = vectorArray.findIndex(item => isCellFilled(item)) === -1
-    // if (!(allInPanel && allCellEmpty)) {
-    //     debugger
-    // }
-    // console.log("lockBecause", allInPanel, allCellEmpty)
-    return allInPanel && allCellEmpty
-}
-
-function isInPanel({ x, y }) {
-    return (x >= 0 && x < col) && (y >= -4 && y < row)
-}
-
-function lockCompo(vectorArray) {
-    // debugger
-    const delLineArray = []
-    vectorArray.forEach(item => {
-        const { x ,y } = item
-        fillCell(x, y)
-        if (checkLineClearable(y)) {
-            delLineArray.push(y)
-        }
-    })
-    deQueue()
-    resetOffset()
-    if (delLineArray.length > 0) {
-        delLineArray.forEach(y => {
-            clearRow(y)
-            getScore()
-        })
-        const vectorArray = getToBeMovedCompo(delLineArray)
-        jumpQueue(vectorArray)
-        //console.log("我不信",vectorArray)
-        //debugger
-        // delLineArray.forEach(item => {
-        //     move(vectorArray, 'down')
-        // })
-    }
-    enQueue(compoFactory())
-
-}
-
 export {
     drawRectCell,
     clearRectCell,
-    canChange,
-    lockCompo
+    clearRow
 }
