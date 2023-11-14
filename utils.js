@@ -19,8 +19,8 @@ function getCenterPoint(vectorArray) {
     })
     // const x0 = Math.round(xSum/count)
     // const y0 = Math.round(ySum/count)
-    const x0 = xSum/count
-    const y0 = ySum/count
+    const x0 = xSum / count
+    const y0 = ySum / count
     const centerPoint = {
         x0,
         y0
@@ -34,7 +34,7 @@ function vectorIsEqual(point1, point2) {
 }
 
 function vectorAdd(vector1, vector2) {
-    const { x, y  } = vector1
+    const { x, y } = vector1
     const x1 = vector2.x
     const y1 = vector2.y
     return {
@@ -44,7 +44,7 @@ function vectorAdd(vector1, vector2) {
 }
 
 function vectorSub(vector1, vector2) {
-    const { x, y  } = vector1
+    const { x, y } = vector1
     const x1 = vector2.x
     const y1 = vector2.y
     return {
@@ -58,8 +58,25 @@ function updateVectorArray(vectorArray, newVectorArray) {
     vectorArray.splice(0, vectorArray.length, ...newVectorArray);
 }
 
-function log(str,data) {
+function log(str, data) {
     console.log(str, JSON.parse(JSON.stringify(data)))
+}
+
+function deepCopy(item) {
+    if (item === null || typeof item !== 'object') {
+        return item
+    }
+    if (item instanceof Array) {
+        return item.map(deepCopy)
+    }
+    const obj = {}
+    for (const key in item) {
+        if (Object.hasOwnProperty.call(item, key)) {
+            const element = deepCopy(item[key]);
+            obj[key] = element
+        }
+    }
+    return obj
 }
 
 export {
@@ -67,5 +84,6 @@ export {
     vectorAdd,
     vectorSub,
     updateVectorArray,
-    log
+    log,
+    deepCopy
 }

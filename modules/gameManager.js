@@ -1,47 +1,35 @@
-import { initQueue, getCurCompo, compoFactory } from "./compoQueue.js"
+import BlockQueue from "./blockQueue.js"
 import { move, rotate } from "./operate.js"
 import eventCenter from "../pub-sub/eventCenter.js"
 
 document.addEventListener('keydown', inputHandler)
-// eventCenter.on("gs", gsCallBack)
 eventCenter.on("gg", ggCallBack)
-eventCenter.on("jumpQueue", jumpQueueCallBack)
 
 
-initQueue()
-let curCompo = getCurCompo()
 let intervalId = ''
 gameStart()
-
-// function gsCallBack() {
-//     gameStart()
-// }
 
 function ggCallBack() {
     stopGame(intervalId)
     gameStart()
 }
 
-function jumpQueueCallBack() {
-    curCompo = getCurCompo()
-}
-
-// test()
 function inputHandler(keyboardEvent) {
     if (!intervalId) return
     const { key } = keyboardEvent
+    const top = BlockQueue.top
     switch (key.toUpperCase()) {
         case 'W':
-            rotate(curCompo)
+            rotate(top)
             break;
         case 'A':
-            move(curCompo, 'left')
+            move(top, 'left')
             break;
         case 'S':
-            move(curCompo, 'down')
+            move(top, 'down')
             break;
         case 'D':
-            move(curCompo, 'right')
+            move(top, 'right')
             break;
 
         default:
@@ -51,8 +39,7 @@ function inputHandler(keyboardEvent) {
 
 function gameStart() {
     intervalId = setInterval(() => {
-        curCompo = getCurCompo()
-        move(curCompo, 'down')
+        move(BlockQueue.top, 'down')
     }, 500);
 }
 
@@ -60,15 +47,3 @@ function stopGame(id) {
     clearInterval(id)
 }
 
-function test() {
-    let a = 0
-    setInterval(() => {
-        move(curCompo,'down')
-    }, 100);
-
-    setInterval(() => {
-        enQueue(compoFactory((a++%7)))
-        deQueue()
-        curCompo = getCurCompo()
-    }, 2000);
-}

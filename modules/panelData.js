@@ -1,9 +1,8 @@
 import { row, col } from "../constant.js"
-import { enQueue, deQueue, compoFactory, jumpQueue } from "./compoQueue.js"
+import BlockQueue from "./blockQueue.js"
 import { clearRow } from "./gamePanel.js"
 import { resetOffset } from "./offset.js"
 import { getScore } from "./score.js";
-// import { log } from "../utils.js";
 import eventCenter from "../pub-sub/eventCenter.js";
 
 eventCenter.on("gg", ggCallBack)
@@ -77,7 +76,7 @@ function lockCompo(vectorArray) {
             delLineArray.push(y)
         }
     })
-    deQueue()
+    BlockQueue.deQueue()
     resetOffset()
     if (delLineArray.length > 0) {
         delLineArray.forEach(y => {
@@ -85,9 +84,9 @@ function lockCompo(vectorArray) {
             getScore()
         })
         const vectorArray = getToBeMovedCompo(delLineArray)
-        jumpQueue(vectorArray)
+        BlockQueue.jumpQueue(vectorArray)
     }
-    enQueue(compoFactory())
+    BlockQueue.enQueueDefault()
 }
 
 //这里把整个顶部作为compo插入的队列顶端,从而让其自动下移
