@@ -1,9 +1,8 @@
-import { row, col } from "../constant.js"
-import BlockQueue from "./blockQueue.js"
-import { clearRow } from "./gamePanel.js"
-import { resetOffset } from "./offset.js"
-import { getScore } from "./score.js";
-import eventCenter from "../pub-sub/eventCenter.js";
+import { row, col } from "../../constant.js"
+import { gamePanel, blockQueue } from "../instance.js";
+import { resetOffset } from "../offset.js"
+import { getScore } from "../score.js";
+import eventCenter from "../../pub-sub/eventCenter.js";
 
 eventCenter.on("gg", ggCallBack)
 
@@ -58,7 +57,7 @@ function canChange(vectorArray) {
 
 //检查当前行是否可删除
 function checkLineClearable(y) {
-    if (y <= 0 ) return false
+    if (y <= 0) return false
     const line = panel[y]
     const clearAble = line.every(item => item === 1)
     if (clearAble) {
@@ -70,23 +69,23 @@ function checkLineClearable(y) {
 function lockCompo(vectorArray) {
     const delLineArray = []
     vectorArray.forEach(item => {
-        const { x ,y } = item
+        const { x, y } = item
         fillCell(x, y)
         if (checkLineClearable(y)) {
             delLineArray.push(y)
         }
     })
-    BlockQueue.deQueue()
+    blockQueue.deQueue()
     resetOffset()
     if (delLineArray.length > 0) {
         delLineArray.forEach(y => {
-            clearRow(y)
+            gamePanel.clearRow(y)
             getScore()
         })
         const vectorArray = getToBeMovedCompo(delLineArray)
-        BlockQueue.jumpQueue(vectorArray)
+        blockQueue.jumpQueue(vectorArray)
     }
-    BlockQueue.enQueueDefault()
+    blockQueue.enQueueDefault()
 }
 
 //这里把整个顶部作为compo插入的队列顶端,从而让其自动下移
@@ -95,7 +94,7 @@ function getToBeMovedCompo(delLineArray) {
     const vectorArray = []
     for (let y = 0; y < bottom; y++) {
         const line = panel[y]
-        line.forEach((element,x) => {
+        line.forEach((element, x) => {
             if (element === 1) {
                 vectorArray.push({
                     x,

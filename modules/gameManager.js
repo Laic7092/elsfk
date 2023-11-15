@@ -1,6 +1,6 @@
-import BlockQueue from "./blockQueue.js"
-import { move, rotate } from "./operate.js"
 import eventCenter from "../pub-sub/eventCenter.js"
+import { blockQueue } from './instance.js'
+import { move, rotate } from "./operate.js"
 
 document.addEventListener('keydown', inputHandler)
 eventCenter.on("gg", ggCallBack)
@@ -17,7 +17,7 @@ function ggCallBack() {
 function inputHandler(keyboardEvent) {
     if (!intervalId) return
     const { key } = keyboardEvent
-    const top = BlockQueue.top
+    const top = blockQueue.top
     switch (key.toUpperCase()) {
         case 'W':
             rotate(top)
@@ -39,7 +39,7 @@ function inputHandler(keyboardEvent) {
 
 function gameStart() {
     intervalId = setInterval(() => {
-        move(BlockQueue.top, 'down')
+        move(blockQueue.top, 'down')
     }, 500);
 }
 

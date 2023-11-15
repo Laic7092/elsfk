@@ -1,13 +1,13 @@
-import { getCenterPoint ,vectorAdd, updateVectorArray } from '../utils.js'
-import { drawRectCell, clearRectCell } from './gamePanel.js';
-import { canChange, lockCompo } from './panelData.js'
+import { gamePanel } from './instance.js';
+import { canChange, lockCompo } from './Class/panelData.js'
+import { getCenterPoint, vectorAdd, updateVectorArray } from '../utils.js'
 import { addOffset, subOffset, getOffset, backStep } from './offset.js';
 import { col } from '../constant.js';
 
 const unitVectorEnum = {
-    down: {x: 0, y: 1},
-    left: {x:-1, y: 0},
-    right: {x:1, y: 0}
+    down: { x: 0, y: 1 },
+    left: { x: -1, y: 0 },
+    right: { x: 1, y: 0 }
 }
 
 function move(vectorArray, direction) {
@@ -27,10 +27,10 @@ function move(vectorArray, direction) {
 function rotate(vectorArray) {
     const centerPoint = getCenterPoint(vectorArray)
     const { x0, y0 } = centerPoint
-    const newVectorArray =  vectorArray.map(item => {
+    const newVectorArray = vectorArray.map(item => {
         const { x, y } = item
         const x1 = -y + x0 + y0
-        const y1 = x -x0 + y0
+        const y1 = x - x0 + y0
         return {
             x: x1,
             y: y1
@@ -50,7 +50,7 @@ function computeOffset(vectorArray) {
     let xOffsetSum = 0
     let yOffsetSum = 0
     vectorArray.forEach(item => {
-        const { x , y } = item
+        const { x, y } = item
         const x1 = Math.floor(x)
         const y1 = Math.floor(y)
         xOffsetSum += x - x1
@@ -58,18 +58,16 @@ function computeOffset(vectorArray) {
         item.x = x1
         item.y = y1
     })
-    const averageXOffset = xOffsetSum/len
-    const averageYOffset = yOffsetSum/len
+    const averageXOffset = xOffsetSum / len
+    const averageYOffset = yOffsetSum / len
     addOffset(averageXOffset, averageYOffset)
-    // debugger
-    // console.log(averageXOffset, averageYOffset,"平均偏移")
     const pastOffset = getOffset()
     const { x, y } = pastOffset
-    if ( x >= 1 || y >= 1) {
+    if (x >= 1 || y >= 1) {
         let xOffset = x - 1 >= 0 ? 1 : 0
         let yOffset = y - 1 >= 0 ? 1 : 0
         subOffset(xOffset, yOffset)
-        justifyOffset(vectorArray, xOffset ,yOffset)
+        justifyOffset(vectorArray, xOffset, yOffset)
     }
     const lastLine = col - 1
     let min = 0
@@ -97,23 +95,21 @@ function justifyOffset(vectorArray, xOffset = 0, yOffset = 0) {
 function computeCompo(newVectorArray, vectorArray) {
     const newSet = new Set(newVectorArray.map((item) => `${item.x}*${item.y}`))
     vectorArray.forEach(item => {
-        const { x , y } = item
+        const { x, y } = item
         const key = `${x}*${y}`
         if (!newSet.has(key)) {
-            clearRectCell(item)
+            gamePanel.clearRectCell(item)
         } else {
             newSet.delete(key)
         }
     })
     newSet.forEach(item => {
         const [x, y] = item.split('*');
-        drawRectCell({
+        gamePanel.drawRectCell({
             x,
             y
         })
     })
-    //  console.log(delPoints,"del")
-    //  console.log(addPoints,"add")
 }
 
 export {

@@ -9,13 +9,13 @@ const _offset = {
 }
 
 function backStep() {
-    const { x, y  } = _offset
+    const { x, y } = _offset
     offset.x = x
     offset.y = y
 }
 
 function backup() {
-    const { x, y  } = offset
+    const { x, y } = offset
     _offset.x = x
     _offset.y = y
 }

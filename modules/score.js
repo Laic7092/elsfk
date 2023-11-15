@@ -1,9 +1,9 @@
 import eventCenter from "../pub-sub/eventCenter.js";
 
-window.addEventListener('load',() => {
+window.addEventListener('load', () => {
     scoreEle = document.querySelector('#score')
     highestScoreEle = document.querySelector('#highestScore')
-    
+
     highestScore = parseInt(localStorage.getItem("highestScore")) || 0
     setScore(scoreEle, score)
     setScore(highestScoreEle, highestScore)

@@ -1,4 +1,5 @@
-import { deepCopy } from "../utils.js";
+import { deepCopy } from "../../utils.js";
+import eventCenter from "../../pub-sub/eventCenter.js";
 
 const blocks = [
     [
@@ -72,7 +73,7 @@ function transBlockToVector2(block) {
     return res
 }
 
-class BlockQueue {
+export class BlockQueue {
     constructor() {
         this.blockQueue = []
         this.top = null
@@ -87,6 +88,7 @@ class BlockQueue {
 
     enQueueDefault() {
         this.blockQueue.push(blockFactory())
+        eventCenter.emit('shift')
     }
 
     enQueue(item) {
@@ -108,12 +110,11 @@ class BlockQueue {
         return this.blockQueue[0]
     }
 
+    getSecondBlock() {
+        return deepCopy(this.blockQueue[1])
+    }
+
     setTop() {
         this.top = this.blockQueue[0]
     }
 }
-
-window.abc = new BlockQueue()
-// export default new BlockQueue()
-export default window.abc
-
