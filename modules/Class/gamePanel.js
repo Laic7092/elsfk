@@ -11,7 +11,7 @@ export class GamePanel {
 
     drawPanel() {
         const ctx = this.ctx
-        ctx.strokeStyle = '#d8453d'
+        ctx.strokeStyle = 'orange'
         const { row, col, cellSize } = this
         for (let i = 0; i < row; i++) {
             for (let j = 0; j < col; j++) {
@@ -23,7 +23,7 @@ export class GamePanel {
     drawRectCell(position) {
         const { cellSize } = this
         const { x, y } = position
-        this.ctx.fillStyle = "#04be02";
+        this.ctx.fillStyle = "white";
         this.ctx.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize - 2, cellSize - 2)
     }
 

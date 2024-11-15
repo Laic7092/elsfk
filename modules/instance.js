@@ -4,14 +4,18 @@ import { row, col, cellSize } from "../constant.js";
 import eventCenter from "../pub-sub/eventCenter.js"
 
 function entityGamePanel() {
-    const gamePanel = document.createElement('canvas')
-    gamePanel.width = 400
-    gamePanel.height = 800
     const panelELe = document.querySelector('.gamePanel')
+    const { offsetWidth } = panelELe
+
+    const _cellSize = Math.floor(offsetWidth / row)
+
+    const gamePanel = document.createElement('canvas')
+    gamePanel.width = _cellSize * col
+    gamePanel.height = _cellSize * row
     if (gamePanel.getContext) {
         const ctx = gamePanel.getContext("2d")
         panelELe.appendChild(gamePanel)
-        return new GamePanel(ctx, row, col, cellSize, 400, 800)
+        return new GamePanel(ctx, row, col, _cellSize, gamePanel.width, gamePanel.height)
     } else {
         alert("不支持canvas")
     }
@@ -31,16 +35,16 @@ const miniPanel = entityMiniPanel()
 const gamePanel = entityGamePanel()
 const blockQueue = new BlockQueue()
 
-eventCenter.on("gg",() => {
+eventCenter.on("gg", () => {
     gamePanel.reRraw()
 })
 
-eventCenter.on('shift',() => {
+eventCenter.on('shift', () => {
     miniPanel.reRraw()
     const newBlock = blockQueue.getSecondBlock()
     newBlock.map(element => {
         element.x -= 4
-        element.y +=3
+        element.y += 3
     });
     miniPanel.drawCompo(newBlock)
 })
