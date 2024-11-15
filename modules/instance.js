@@ -1,7 +1,7 @@
 import { GamePanel } from "./Class/gamePanel.js";
 import { BlockQueue } from "./Class/blockQueue.js";
 import { row, col, cellSize } from "../constant.js";
-import eventCenter from "../../pub-sub/eventCenter.js"
+import eventCenter from "../pub-sub/eventCenter.js"
 
 function entityGamePanel() {
     const gamePanel = document.createElement('canvas')
