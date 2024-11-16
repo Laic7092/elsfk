@@ -5,12 +5,10 @@ import eventCenter from "../pub-sub/eventCenter.js"
 
 function entityGamePanel() {
     const panelELe = document.querySelector('.gamePanel')
-    const { width, height } = window.screen
+    const { innerHeight, innerWidth } = window
+    const ratio = (innerWidth / innerHeight).toFixed(2)
 
-    const cellSize1 = Math.floor(width / row)
-    const cellSize2 = Math.floor(height / row)
-
-    const _cellSize = Math.min(cellSize1, cellSize2)
+    const _cellSize = Math.floor(innerHeight / row) / 2.5
 
     const gamePanel = document.createElement('canvas')
     gamePanel.width = _cellSize * col
