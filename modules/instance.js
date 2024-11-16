@@ -5,9 +5,12 @@ import eventCenter from "../pub-sub/eventCenter.js"
 
 function entityGamePanel() {
     const panelELe = document.querySelector('.gamePanel')
-    const { offsetWidth } = panelELe
+    const { width, height } = window.screen
 
-    const _cellSize = Math.floor(offsetWidth / row)
+    const cellSize1 = Math.floor(width / row)
+    const cellSize2 = Math.floor(height / row)
+
+    const _cellSize = Math.min(cellSize1, cellSize2)
 
     const gamePanel = document.createElement('canvas')
     gamePanel.width = _cellSize * col

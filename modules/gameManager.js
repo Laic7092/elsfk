@@ -40,6 +40,8 @@ window.addEventListener('load', () => {
         const top = blockQueue.top
         if (direction !== 'up') {
             move(top, direction)
+        } else {
+            rotate(top)
         }
     })
 })
